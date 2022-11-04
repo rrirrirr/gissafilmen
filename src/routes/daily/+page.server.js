@@ -16,6 +16,9 @@ export const actions = {
     if (!name.length) {
       return invalid(400, { name, missing: true })
     }
+    if (name.length > 12) {
+      return invalid(400, { name, incorrect: true })
+    }
     if (name.toLowerCase() === 'you') {
       return invalid(400, { name, incorrect: true })
     }
@@ -23,6 +26,7 @@ export const actions = {
       await axios.post(`${import.meta.env.VITE_SCOREURL}/score`, { name, score: parseInt(score) })
     } catch (error) {
       console.log(error)
+      return {error: true}
     }
     return { success: true }
   }

@@ -62,6 +62,7 @@
 		score = 0
 		if (type === 'daily') {
 			seedrandom(dailySeed, { global: true })
+			seed = dailySeed
 		} else {
 			seed = generateSeed()
 			seedrandom(seed, { global: true })
@@ -137,91 +138,106 @@
 	})
 </script>
 
-<div
-	on:click={(e) => handleNextClick(e)}
-	on:keydown={handleNextClick}
-	class="container"
-	style="padding-right: {$shakeProgress}rem;"
->
-	<div class="livesBar">
-		<a class="home" href="/">Main</a>
-		{#each Array(maxLives).fill() as _, i}
-			<span>
-				<Fa icon={i < lives ? faHeart : hollow} class="heart" scale={i === lives ? $progress : 1} />
-			</span>
-		{/each}
-		<span class="score" style="font-size: {$scoreProgress}rem;">{score}</span>
+{#if seed === ''}
+  <h2>Loading game</h2>
+{:else if seed === 'no'}
+	<div>
+		<h1>You already played the daily challenge</h1>
+		<a href="/">return</a>
 	</div>
-	{#if game.length}
-		<h2 class="title">
-			{#each title.split('/') as text, i}
-				{#if i === 1}
-					<span class="highlighted">{text}</span>
-				{:else}
-					{text}
-				{/if}
+{:else}
+	<div
+		on:click={(e) => handleNextClick(e)}
+		on:keydown={handleNextClick}
+		class="container"
+		style="padding-right: {$shakeProgress}rem;"
+	>
+		<div class="livesBar">
+			<a class="home" href="/">Main</a>
+			{#each Array(maxLives).fill() as _, i}
+				<span>
+					<Fa
+						icon={i < lives ? faHeart : hollow}
+						class="heart"
+						scale={i === lives ? $progress : 1}
+					/>
+				</span>
 			{/each}
-		</h2>
-		<div class="choiceContainer">
-			<Choice
-				on:click={() => handleClick(game[0].winner)}
-				on:keypress={(e) => console.log(e)}
-				picture={`https://image.tmdb.org/t/p/w500/${game[0].picture}`}
-				{clicked}
-				winner={game[0].winner}
-				gameOver={game[0].gameOver}
-				{subText}
-			/>
-			<Choice
-				on:click={() => handleClick(game[1].winner)}
-				on:keypress={(e) => console.log(e)}
-				picture={`https://image.tmdb.org/t/p/w500/${game[1].picture}`}
-				{clicked}
-				winner={game[1].winner}
-				gameOver={game[1].gameOver}
-				{subText}
-			/>
+			<span class="score" style="font-size: {$scoreProgress}rem;">{score}</span>
 		</div>
-		{#if clicked && !lost}
-			<p class="nextInfo">Click anywhere to continue</p>
-		{/if}
-		{#if lost}
-			<div class="gameOverContainer">
-				<p class="livesBar">
-					<Fa icon={hollow} class="heart" />
-					<Fa icon={hollow} class="heart" />
-					<Fa icon={hollow} class="heart" />
-				</p>
-				{#if type === 'daily'}
-					<a href="/">Thank you for playing the daily challenge</a>
-				{:else}
-					<button class="button newGame" on:click={newGame}>New Game</button>
-				{/if}
-				<p class="scoreBar">You scored {score}</p>
-				{#if type === 'daily'}
-					<ul class="highscore">
-						{#each highScore as score}
-							<li class={`bold ${score.name === 'You' && 'highlighted'}`}>
-								{#if score.name === 'You'}{name}{:else}{score.name}{/if}: {score.score}
-							</li>
-						{/each}
-					</ul>
-					{#if scoreIsTopTen() && !form?.success}
-						<form method="POST" action="?/score" use:enhance>
-							<input name="name" bind:value={name} />
-							<input style="display: none;" name="score" bind:value={score} />
-							<button class="submit">Submit</button>
-							{#if form?.incorrect}<p>Invalid name!</p>{/if}
-							{#if form?.missing}<p>Missing name!</p>{/if}
-						</form>
+		{#if game.length}
+			<h2 class="title">
+				{#each title.split('/') as text, i}
+					{#if i === 1}
+						<span class="highlighted">{text}</span>
+					{:else}
+						{text}
 					{/if}
-				{/if}
+				{/each}
+			</h2>
+			<div class="choiceContainer">
+				<Choice
+					on:click={() => handleClick(game[0].winner)}
+					on:keypress={(e) => console.log(e)}
+					picture={`https://image.tmdb.org/t/p/w500/${game[0].picture}`}
+					{clicked}
+					winner={game[0].winner}
+					gameOver={game[0].gameOver}
+					{subText}
+				/>
+				<Choice
+					on:click={() => handleClick(game[1].winner)}
+					on:keypress={(e) => console.log(e)}
+					picture={`https://image.tmdb.org/t/p/w500/${game[1].picture}`}
+					{clicked}
+					winner={game[1].winner}
+					gameOver={game[1].gameOver}
+					{subText}
+				/>
 			</div>
+			{#if clicked && !lost}
+				<p class="nextInfo">Click anywhere to continue</p>
+			{/if}
+			{#if lost}
+				<div class="gameOverContainer">
+					<p class="livesBar">
+						<Fa icon={hollow} class="heart" />
+						<Fa icon={hollow} class="heart" />
+						<Fa icon={hollow} class="heart" />
+					</p>
+					{#if type === 'daily'}
+						<a href="/">Thank you for playing the daily challenge</a>
+					{:else}
+						<button class="button newGame" on:click={newGame}>New Game</button>
+					{/if}
+					<p class="scoreBar">You scored {score}</p>
+					{#if type === 'daily'}
+						<ul class="highscore">
+							{#each highScore as score}
+								<li class={`bold ${score.name === 'You' && 'highlighted'}`}>
+									{#if score.name === 'You'}{name}{:else}{score.name}{/if}: {score.score}
+								</li>
+							{/each}
+						</ul>
+						{#if scoreIsTopTen() && !form?.success}
+							<form method="POST" action="?/score" use:enhance>
+								<input name="name" bind:value={name} />
+								<input style="display: none;" name="score" bind:value={score} />
+								<input style="display: none;" name="seed" bind:value={seed} />
+								<button class="submit">Submit</button>
+								{#if form?.incorrect}<p>Invalid name!</p>{/if}
+								{#if form?.missing}<p>Missing name!</p>{/if}
+								{#if form?.error}<p>Something went wrong!</p>{/if}
+							</form>
+						{/if}
+					{/if}
+				</div>
+			{/if}
+		{:else}
+			loading...
 		{/if}
-	{:else}
-		loading...
-	{/if}
-</div>
+	</div>
+{/if}
 
 <style>
 	:root {
@@ -285,7 +301,7 @@
 		color: #313244;
 	}
 	.title {
-  	text-align: center;
+		text-align: center;
 	}
 	.score {
 		color: #cba6f7;
