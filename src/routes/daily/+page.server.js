@@ -11,7 +11,6 @@ export async function load({ params }) {
 export const actions = {
   score: async ({ request }) => {
     const data = await request.formData()
-    console.log(data)
     const name = data.get('name')
     const score = data.get('score')
     if (!name.length) {
