@@ -20,7 +20,11 @@ export const actions = {
 		if (name.toLowerCase() === 'you') {
 			return invalid(400, { name, incorrect: true })
 		}
-		await axios.post(`${import.meta.env.VITE_SCOREURL}/score`, { name, score: parseInt(score) })
+		try{
+  		await axios.post(`${import.meta.env.VITE_SCOREURL}/score`, { name, score: parseInt(score) })
+		} catch (error) {
+			console.log(error)
+		}
 		return { success: true }
 	}
 }
