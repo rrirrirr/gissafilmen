@@ -8,13 +8,17 @@
 
 <div class="container">
 	<a class="bigLink" href="/game">Start game</a>
-	<a class="bigLink" href="/daily">Start daily challenge</a>
-	<h2 class="highScoreTitle">Daily challenge highscores</h2>
-	<ul>
-		{#each highScore as score}
-			<li>{score.name}: {score.score}</li>
-		{/each}
-	</ul>
+	<a class="bigLink" href="/daily">Daily challenge</a>
+	<div>
+		<h2 class="highScoreTitle">Daily challenge high scores</h2>
+		<ul>
+			{#each highScore as score, i}
+				<li class="score">
+					{i + 1}. <span class="name">{score.name}</span> <span class="highlighted">{score.score}</span>
+				</li>
+			{/each}
+		</ul>
+	</div>
 </div>
 
 <style>
@@ -23,6 +27,9 @@
 			'Open Sans', 'Helvetica Neue', sans-serif;
 		background-color: #11111b;
 		color: #cdd6f4;
+	}
+	h2 {
+		color: #f38ba8;
 	}
 	a {
 		color: #f5c2e7;
@@ -37,9 +44,12 @@
 		margin-block-start: 0;
 		padding: 0;
 		margin-bottom: 0.3rem;
+		width: 100%;
 	}
 	li {
 		padding: 0.2rem;
+		width: 100%;
+		text-align: left;
 	}
 	.container {
 		display: flex;
@@ -50,9 +60,25 @@
 	.bigLink {
 		font-size: 3rem;
 		padding: 1rem;
+		border-radius: 0.8rem;
+		margin: 1rem;
+		background: #313244;
 	}
 	.highScoreTitle {
-  	text-align: center;
+		text-align: center;
+	}
+	.highlighted {
+		color: #fab387;
+		font-weight: bold;
+	}
+	.name {
+  	width: 100%;
+  	margin-left: 1rem;
+	}
+	.score {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 	}
 	@media screen and (min-width: 650px) {
 	}

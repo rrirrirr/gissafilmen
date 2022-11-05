@@ -139,7 +139,7 @@
 </script>
 
 {#if seed === ''}
-  <h2>Loading game</h2>
+	<h2>Loading game</h2>
 {:else if seed === 'no'}
 	<div>
 		<h1>You already played the daily challenge</h1>
@@ -213,9 +213,13 @@
 					<p class="scoreBar">You scored {score}</p>
 					{#if type === 'daily'}
 						<ul class="highscore">
-							{#each highScore as score}
-								<li class={`bold ${score.name === 'You' && 'highlighted'}`}>
-									{#if score.name === 'You'}{name}{:else}{score.name}{/if}: {score.score}
+							{#each highScore as score, i}
+								<li class={`bold ${score.name === 'You' && 'you'}`}>
+									{i + 1}.
+									<span class="name">
+										{#if score.name === 'You'}{name}{:else}{score.name}{/if}
+									</span>
+									<span class="highlighted bold">{score.score}</span>
 								</li>
 							{/each}
 						</ul>
@@ -261,6 +265,15 @@
 		padding: 0.5rem;
 		font-size: 1rem;
 		letter-spacing: 0.1rem;
+	}
+	ul {
+  	width: 100%;
+	}
+	li {
+		padding: 0.2rem;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 	}
 	.container {
 		display: flex;
@@ -357,10 +370,12 @@
 	.home:hover {
 		color: #cba6f7;
 	}
-
-	li {
-		text-align: center;
-		padding: 0.2rem;
+	.name {
+  	width: 100%;
+  	margin-left: 1rem;
+	}
+	.you {
+  	color:#f38ba8;
 	}
 	@media screen and (min-width: 650px) {
 		.choiceContainer {
