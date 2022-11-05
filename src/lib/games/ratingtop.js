@@ -17,7 +17,6 @@ function fetchMovies(numberOfMovies, uniqueProp) {
     while (currentProp.val === uniqueProp.val && tries < 10) {
       const page = distribution()
       if (i === 0) page1 = page
-      console.log(page)
       let res
       try {
         res = await axios.get(

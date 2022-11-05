@@ -13,6 +13,7 @@ export const actions = {
     const data = await request.formData()
     const name = data.get('name')
     const score = data.get('score')
+    const seed = data.get('seed')
     if (!name.length) {
       return invalid(400, { name, missing: true })
     }
@@ -23,7 +24,7 @@ export const actions = {
       return invalid(400, { name, incorrect: true })
     }
     try {
-      await axios.post(`${import.meta.env.VITE_SCOREURL}/score`, { name, score: parseInt(score) })
+      await axios.post(`${import.meta.env.VITE_SCOREURL}/score`, { name, score: parseInt(score), seed })
     } catch (error) {
       console.log(error)
       return {error: true}
