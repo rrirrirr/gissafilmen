@@ -1,7 +1,11 @@
 import axios from 'axios'
 
-const pages = 50
-const votes = 50000
+const pages = 99
+const votes = 2000
+
+function distribution() {
+  return Math.round(Math.random() * pages) + 1
+}
 
 function fetchMovies(numberOfMovies, uniqueProp) {
   uniqueProp.val = null
@@ -10,33 +14,38 @@ function fetchMovies(numberOfMovies, uniqueProp) {
     let movie = null
     let tries = 0
     while (currentProp.val === uniqueProp.val && tries < 10) {
-      const page = Math.floor(Math.random() * pages) + 1
-      const res = await axios.get(
-        // `${import.meta.env.VITE_URL}/discover/movie?sort_by=popularity.desc&page=${page1}`,
-        `${import.meta.env.VITE_URL}/movie/top_rated?sort_by=popularity.desc&vote_count.gte=${votes}&page=${page}`,
-        {
-          headers: { Authorization: `Bearer ${import.meta.env.VITE_TOKEN}` }
-        }
-      )
-      const length = res.data.results.length
-      let triesb = 0
-      let foundMovie = false
-      while (!foundMovie && triesb < 10) {
-        const index = Math.floor(Math.random() * length)
-        movie = res.data.results[index]
-        if (movie[uniqueProp.key] !== uniqueProp.val) {
-          foundMovie = true
-        }
-        triesb++
+      const page = distribution()
+      let res
+      try {
+        res = await axios.get(
+          `${import.meta.env.VITE_URL}/discover/movie?sort_by=vote_average.desc&vote_count.gte=${votes}&page=${page}`,
+          {
+            headers: { Authorization: `Bearer ${import.meta.env.VITE_TOKEN}` }
+          }
+        )
+      } catch (error) {
+        console.log(error)
       }
-      currentProp.val = movie[uniqueProp.key]
-      tries++
-      if (foundMovie) {
-        if (i === 0) uniqueProp.val = movie[uniqueProp.key]
-        return movie
+      if (res?.data?.results?.length) {
+        const length = res.data.results.length
+        let triesb = 0
+        let foundMovie = false
+        while (!foundMovie && triesb < 10) {
+          const index = Math.floor(Math.random() * length)
+          movie = res.data.results[index]
+          if (movie[uniqueProp.key] !== uniqueProp.val) {
+            foundMovie = true
+          }
+          triesb++
+        }
+        currentProp.val = movie[uniqueProp.key]
+        tries++
+        if (foundMovie) {
+          if (i === 0) uniqueProp.val = movie[uniqueProp.key]
+          return movie
+        }
       }
     }
-    return movie
   })
   return movies
 }
