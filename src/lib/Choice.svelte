@@ -66,7 +66,7 @@
 	@media screen and (min-width: 650px) {
 		.choicePic {
 			max-width: 40vw;
-			max-height: 80vh;
+			max-height: 75vh;
 		}
 		.subText {
 			font-size: 2rem;
