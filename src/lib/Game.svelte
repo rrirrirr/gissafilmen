@@ -27,6 +27,9 @@
 	let seed = ''
 	let highScore = []
 	let name = 'You'
+	let topTen = false
+
+	$: topTen = scoreIsTopTen(highScore)
 
 	onMount(async () => {
 		console.log(dailySeed)
@@ -43,8 +46,12 @@
 			.slice(0, res.data.length > 9 ? 10 : res.data.length)
 	}
 
-	function scoreIsTopTen() {
-		return highScore.length > 10 ? score > highScore[9] : true
+	function scoreIsTopTen(highScore) {
+		console.log(highScore.length)
+		if (!highScore?.length) return false
+		console.log(highScore.length)
+		console.log(highScore[9].score)
+		return highScore.length >= 10 ? score > highScore[9].score : true
 	}
 
 	async function nextGame() {
@@ -205,12 +212,8 @@
 						<Fa icon={hollow} class="heart" />
 						<Fa icon={hollow} class="heart" />
 					</p>
-					{#if type === 'daily'}
-						<a href="/">Thank you for playing the daily challenge</a>
-					{:else}
-						<button class="button newGame" on:click={newGame}>New Game</button>
-					{/if}
-					<p class="scoreBar">You scored {score}</p>
+					<p class="scoreTitle">You scored</p>
+					<p class="scoreBar">{score}</p>
 					{#if type === 'daily'}
 						<ul class="highscore">
 							{#each highScore as score, i}
@@ -223,7 +226,7 @@
 								</li>
 							{/each}
 						</ul>
-						{#if scoreIsTopTen() && !form?.success}
+						{#if topTen && !form?.success}
 							<form method="POST" action="?/score" use:enhance>
 								<input name="name" bind:value={name} />
 								<input style="display: none;" name="score" bind:value={score} />
@@ -234,6 +237,12 @@
 								{#if form?.error}<p>Something went wrong!</p>{/if}
 							</form>
 						{/if}
+						<p>
+							Thank you for playing the daily challenge!
+							<a href="/">Return</a>
+						</p>
+					{:else}
+						<button class="button newGame" on:click={newGame}>New Game</button>
 					{/if}
 				</div>
 			{/if}
@@ -267,7 +276,7 @@
 		letter-spacing: 0.1rem;
 	}
 	ul {
-  	width: 100%;
+		width: 100%;
 	}
 	li {
 		padding: 0.2rem;
@@ -321,12 +330,15 @@
 		position: absolute;
 		right: 5%;
 	}
+	.scoreTitle {
+		margin: 0.5rem 0 0.2rem 0;
+	}
 	.scoreBar {
 		color: #cba6f7;
-		font-size: 2rem;
+		font-size: 3rem;
 		text-align: center;
 		width: 100%;
-		margin-top: 0.3rem 0 0 0;
+		margin: 0 0 0.5rem 0;
 	}
 	.gameOverContainer {
 		position: absolute;
@@ -371,11 +383,11 @@
 		color: #cba6f7;
 	}
 	.name {
-  	width: 100%;
-  	margin-left: 1rem;
+		width: 100%;
+		margin-left: 1rem;
 	}
 	.you {
-  	color:#f38ba8;
+		color: #f38ba8;
 	}
 	@media screen and (min-width: 650px) {
 		.choiceContainer {
