@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-    "start": "vite --port $PORT --host",
+		"start": "vite --port $PORT --host",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
@@ -29,6 +29,7 @@
 		"@fortawesome/free-solid-svg-icons": "^6.2.0",
 		"axios": "^1.1.3",
 		"seedrandom": "^3.0.5",
+		"simplex-noise": "^4.0.1",
 		"svelte-fa": "^3.0.3"
 	}
 }

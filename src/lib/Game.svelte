@@ -32,7 +32,6 @@
 	$: topTen = scoreIsTopTen(highScore)
 
 	onMount(async () => {
-		console.log(dailySeed)
 		newGame(type)
 	})
 
@@ -47,10 +46,7 @@
 	}
 
 	function scoreIsTopTen(highScore) {
-		console.log(highScore.length)
 		if (!highScore?.length) return false
-		console.log(highScore.length)
-		console.log(highScore[9].score)
 		return highScore.length >= 10 ? score > highScore[9].score : true
 	}
 

@@ -1,12 +1,13 @@
 <script>
 	import { onMount } from 'svelte'
-	import seedrandom from 'seedrandom'
+	import Background from '$lib/Background.svelte'
 	export let data
 	let highScore = data.highScore
 	onMount(async () => {})
 </script>
 
 <div class="container">
+<Background/>
 	<a class="bigLink" href="/game">Start game</a>
 	<a class="bigLink" href="/daily">Daily challenge</a>
 	<div>
@@ -14,7 +15,8 @@
 		<ul>
 			{#each highScore as score, i}
 				<li class="score">
-					{i + 1}. <span class="name">{score.name}</span> <span class="highlighted">{score.score}</span>
+					{i + 1}. <span class="name">{score.name}</span>
+					<span class="highlighted">{score.score}</span>
 				</li>
 			{/each}
 		</ul>
@@ -72,8 +74,8 @@
 		font-weight: bold;
 	}
 	.name {
-  	width: 100%;
-  	margin-left: 1rem;
+		width: 100%;
+		margin-left: 1rem;
 	}
 	.score {
 		display: flex;

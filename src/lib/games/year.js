@@ -67,7 +67,6 @@ export async function yearGame() {
   return new Promise(async (resolve, reject) => {
     try {
       const movies = await Promise.all(fetchMovies(2, { key: 'release_date' }))
-      console.log(movies)
       const winner = new Date(movies[0].release_date) - new Date(movies[1].release_date) > 0 ? 1 : 0
       resolve(
         {

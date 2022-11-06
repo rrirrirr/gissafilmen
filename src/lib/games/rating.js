@@ -54,7 +54,6 @@ export async function ratingGame() {
   return new Promise(async (resolve, reject) => {
     try {
       const movies = await Promise.all(fetchMovies(2, { key: 'vote_average' }))
-      console.log(movies)
       const winner = movies[1].vote_average - movies[0].vote_average > 0 ? 1 : 0
       resolve(
         {
