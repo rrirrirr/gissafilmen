@@ -12,15 +12,23 @@
 	<a class="bigLink daily" href="/daily">Daily Challenge</a>
 	<div>
 		<h2 class="highScoreTitle">High scores</h2>
-		<ul>
-			{#each highScore as score, i}
-				<li class="score">
-					{i + 1}. <span class="name">{score.name}</span>
-					<span class="highlighted">{score.score}</span>
-				</li>
-			{/each}
-		</ul>
+		{#if highScore.length}
+			<ul>
+				{#each highScore as score, i}
+					<li class="score">
+						{i + 1}. <span class="name">{score.name}</span>
+						<span class="highlighted">{score.score}</span>
+					</li>
+				{/each}
+			</ul>
+		{:else}
+			<p>No high scores yet</p>
+		{/if}
 	</div>
+</div>
+<div class="attribution">
+	<img src="/images/tmdb.svg" alt="TMDB logo" class="tmdblogo" />
+	<span>This product uses the TMDB API but is not endorsed or certified by TMDB</span>
 </div>
 
 <style>
@@ -55,6 +63,23 @@
 		padding: 0.2rem;
 		width: 100%;
 		text-align: left;
+	}
+	.tmdblogo {
+		width: 3rem;
+	}
+	.attribution {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-content: flex-end;
+		width: 90vw;
+		position: fixed;
+		gap: 0.5rem;
+		margin: 0 1rem 0 1rem;
+		bottom: 5px;
+	}
+	.attribution span {
+  	align-self: flex-end;
 	}
 	.daily {
 		color: #a6e3a1;
