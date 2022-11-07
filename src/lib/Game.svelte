@@ -145,7 +145,7 @@
 	<h2>Loading game</h2>
 {:else if seed === 'no'}
 	<div>
-		<h1>You already played the daily challenge</h1>
+		<h1>You have already played today's daily challenge!</h1>
 		<a href="/">return</a>
 	</div>
 {:else}
