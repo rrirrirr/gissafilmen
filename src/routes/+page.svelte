@@ -96,6 +96,7 @@
 		border-radius: 0.8rem;
 		margin: 1rem;
 		background: #1e1e2e;
+    box-shadow: 5px 10px #11111b;
 	}
 	.highScoreTitle {
 		text-align: center;
