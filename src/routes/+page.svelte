@@ -11,7 +11,7 @@
 	<a class="bigLink" href="/game">Start Game</a>
 	<a class="bigLink daily" href="/daily">Daily Challenge</a>
 	<div>
-		<h2 class="highScoreTitle">High scores</h2>
+		<h2 class="highScoreTitle">High Scores</h2>
 		{#if highScore.length}
 			<ul>
 				{#each highScore as score, i}
