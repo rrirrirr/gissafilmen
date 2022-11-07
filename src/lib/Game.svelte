@@ -338,7 +338,7 @@
 	}
 	.gameOverContainer {
 		position: absolute;
-		bottom: 30%;
+		top: 30%;
 		background-color: #313244;
 		border-radius: 0.8rem;
 		padding: 1rem;

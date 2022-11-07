@@ -2,8 +2,8 @@
 	import { createNoise3D } from 'simplex-noise'
 	import { onMount } from 'svelte'
 	const noise2D = createNoise3D()
-	const nodeWidth = 50
-	const nodeHeight = 50
+	let nodeWidth = 50
+	let nodeHeight = 50
 	let x = 0
 	let y = 0
 	let nodes = []
@@ -12,8 +12,10 @@
 	let width = 0
 	let height = 0
 
-	$: x = Math.floor(width / nodeWidth) 
+	$: x = Math.floor(width / nodeWidth)
 	$: y = Math.floor(height / nodeHeight)
+//	$: nodeWidth = width / 16
+//	$: nodeHeight = nodeWidth
 	$: nodes = x * y > 0 ? Array(x * y).fill() : []
 
 	onMount(() => {
@@ -21,14 +23,14 @@
 	})
 
 	function fillNodes(time) {
-		if (time - last < 100) return requestAnimationFrame(fillNodes)
+		if (time - last < 20) return requestAnimationFrame(fillNodes)
 		last = time
 		nodes = nodes.map((node, i) => {
 			return {
-				r: Math.floor(noise2D(i % x, i / x, t / 32) * 10) + 17,
-				g: Math.floor(noise2D(i % x, i / x, t / 32) * 100) + 17,
-				b: Math.floor(noise2D(i % x, i / x, t / 32) * 200) + 28,
-				size: noise2D(i % x, i / x, t / 128) * 5
+				r: Math.floor(noise2D(i % x, i / x, t / 128) * 10) + 17,
+				g: Math.floor(noise2D(i % x, i / x, t / 128) * 100) + 17,
+				b: Math.floor(noise2D(i % x, i / x, t / 128) * 200) + 28,
+				size: noise2D(i % x, i / x, t / 256) * 80
 			}
 		})
 		t = (t % 10000000) + 1
@@ -50,8 +52,7 @@
   			width: {nodeWidth}px;
   			height: {nodeHeight}px;
   			"
-		>
-		</div>
+		/>
 	{/each}
 </div>
 
@@ -69,5 +70,7 @@
 		flex-direction: row;
 	}
 	.node {
+		margin: 0;
+		padding: 0;
 	}
 </style>

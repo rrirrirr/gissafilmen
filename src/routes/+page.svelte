@@ -7,11 +7,11 @@
 </script>
 
 <div class="container">
-<Background/>
-	<a class="bigLink" href="/game">Start game</a>
-	<a class="bigLink" href="/daily">Daily challenge</a>
+	<Background />
+	<a class="bigLink" href="/game">Start Game</a>
+	<a class="bigLink daily" href="/daily">Daily Challenge</a>
 	<div>
-		<h2 class="highScoreTitle">Daily challenge high scores</h2>
+		<h2 class="highScoreTitle">High scores</h2>
 		<ul>
 			{#each highScore as score, i}
 				<li class="score">
@@ -24,6 +24,7 @@
 </div>
 
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
 	:root {
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
 			'Open Sans', 'Helvetica Neue', sans-serif;
@@ -34,7 +35,9 @@
 		color: #f38ba8;
 	}
 	a {
-		color: #f5c2e7;
+		font-family: 'Lilita One', cursive;
+		letter-spacing: 0.2rem;
+		color: #a6e3a1;
 		text-decoration: none;
 		text-align: center;
 	}
@@ -53,6 +56,9 @@
 		width: 100%;
 		text-align: left;
 	}
+	.daily {
+		color: #a6e3a1;
+	}
 	.container {
 		display: flex;
 		flex-direction: column;
@@ -60,11 +66,11 @@
 		justify-content: center;
 	}
 	.bigLink {
-		font-size: 3rem;
+		font-size: 2rem;
 		padding: 1rem;
 		border-radius: 0.8rem;
 		margin: 1rem;
-		background: #313244;
+		background: #1e1e2e;
 	}
 	.highScoreTitle {
 		text-align: center;
@@ -83,5 +89,8 @@
 		justify-content: space-between;
 	}
 	@media screen and (min-width: 650px) {
+		.bigLink {
+			font-size: 3rem;
+		}
 	}
 </style>
