@@ -29,8 +29,7 @@
 			return {
 				r: Math.floor(noise2D(i % x, i / x, t / 128) * 10) + 17,
 				g: Math.floor(noise2D(i % x, i / x, t / 128) * 100) + 17,
-				b: Math.floor(noise2D(i % x, i / x, t / 128) * 200) + 28,
-				size: noise2D(i % x, i / x, t / 256) * 80
+				b: Math.floor(noise2D(i % x, i / x, t / 128) * 200) + 28
 			}
 		})
 		t = (t % 10000000) + 1
