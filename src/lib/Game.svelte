@@ -155,29 +155,37 @@
 		class="container"
 		style="padding-right: {$shakeProgress}rem;"
 	>
-		<div class="livesBar">
-			<a class="home" href="/">Main</a>
-			{#each Array(maxLives).fill() as _, i}
-				<span>
-					<Fa
-						icon={i < lives ? faHeart : hollow}
-						class="heart"
-						scale={i === lives ? $progress : 1}
-					/>
-				</span>
-			{/each}
-			<span class="score" style="font-size: {$scoreProgress}rem;">{score}</span>
+		<div class="header">
+			<button class="home" onclick="location.href='/'">Home</button>
+			<div class="livesContainer">
+				<div class="livesBar">
+					{#each Array(maxLives).fill() as _, i}
+						<span>
+							<Fa
+								icon={i < lives ? faHeart : hollow}
+								class="heart"
+								scale={i === lives ? $progress : 1}
+							/>
+						</span>
+					{/each}
+				</div>
+				{#if game.length}
+					<span class="title">
+						{#each title.split('/') as text, i}
+							{#if i === 1}
+								<span class="highlighted">{text}</span>
+							{:else}
+								{text}
+							{/if}
+						{/each}
+					</span>
+				{/if}
+			</div>
+			<div class="scoreContainer">
+				<span class="score" style="font-size: {$scoreProgress}rem;">{score}</span>
+			</div>
 		</div>
 		{#if game.length}
-			<h2 class="title">
-				{#each title.split('/') as text, i}
-					{#if i === 1}
-						<span class="highlighted">{text}</span>
-					{:else}
-						{text}
-					{/if}
-				{/each}
-			</h2>
 			<div class="choiceContainer">
 				<Choice
 					on:click={() => handleClick(game[0].winner)}
@@ -203,12 +211,12 @@
 			{/if}
 			{#if lost}
 				<div class="gameOverContainer">
-					<p class="livesBar">
+					<div class="livesBar">
 						<Fa icon={hollow} class="heart" />
 						<Fa icon={hollow} class="heart" />
 						<Fa icon={hollow} class="heart" />
-					</p>
-					<p class="scoreTitle">You scored</p>
+					</div>
+					<p class="scoreTitle">Your score</p>
 					<p class="scoreBar">{score}</p>
 					{#if type === 'daily'}
 						<ul class="highscore">
@@ -286,12 +294,29 @@
 		align-items: center;
 		justify-content: center;
 	}
+	.header {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		color: #f38ba8;
+		gap: 1rem;
+		font-size: 1rem;
+	}
+	.livesContainer {
+    order: 3;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+	}
 	.livesBar {
 		display: flex;
 		flex-direction: row;
-		color: #f38ba8;
+		justify-content: center;
 		gap: 1rem;
-		font-size: 2rem;
 	}
 	.choiceContainer {
 		display: flex;
@@ -319,12 +344,23 @@
 		color: #313244;
 	}
 	.title {
+		color: #cdd6f4;
 		text-align: center;
+	}
+	.scoreContainer {
+    order: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+		padding: 1rem;
+		height: 1rem;
+		width: 3rem;
+		border-radius: 0.8rem;
+		background: #1e1e2e;
 	}
 	.score {
 		color: #cba6f7;
-		position: absolute;
-		right: 5%;
+		font-size: 0.5rem;
 	}
 	.scoreTitle {
 		margin: 0.5rem 0 0.2rem 0;
@@ -369,13 +405,18 @@
 		letter-spacing: 0.1rem;
 	}
 	.home {
-		position: absolute;
-		left: 5%;
+    order: 1; 
+		font-size: 1rem;
+		padding: 1rem;
+		border-radius: 0.8rem;
+		background: #1e1e2e;
+		box-shadow: 5px 10px #22222b;
 		color: #f5c2e7;
 		text-decoration: none;
-		font-size: 1.5rem;
+		width: 100%;
 	}
 	.home:hover {
+		cursor: pointer;
 		color: #cba6f7;
 	}
 	.name {
@@ -385,16 +426,38 @@
 	.you {
 		color: #f38ba8;
 	}
-	@media screen and (min-width: 650px) {
+	@media screen and (min-width: 840px) {
+  	.header {
+  		width: 85%;
+  		max-width: 1040px;
+  		flex-direction: row;
+  		justify-content: space-between;
+  		align-content: center;
+  		padding: 1rem;
+  		color: #f38ba8;
+  		gap: 1rem;
+  		font-size: 2rem;
+  	}
+		.scoreContainer {
+      order: 0;
+  		padding: 1rem;
+  		height: 3rem;
+  		width: 5rem;
+		}
 		.choiceContainer {
 			flex-direction: row;
 		}
 		.score {
-			right: 25%;
+  		font-size: 2rem;
 		}
 		.home {
-			left: 25%;
-			font-size: 1.5rem;
+      order: 0;
+  		height: 5rem;
+  		font-size: 1.5rem;
+  		width: auto;
+		}
+		.livesContainer {
+      order: 0;
 		}
 		.button {
 			font-size: 2rem;
