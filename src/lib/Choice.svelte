@@ -11,7 +11,7 @@
 	<img class="choicePic" src={picture} alt="1" />
 	{#if clicked}
 		<div class={`gameOver ${winner ? 'win' : 'lose'}`}>
-			{#if winner}<span in:scale>Winner</span>{:else}<span in:fade>Loser</span>{/if}
+			{#if winner}<span in:scale>Correct</span>{:else}<span in:fade>Wrong</span>{/if}
 			<p class="result">{gameOver}</p>
 			<p class="subText">{subText}</p>
 		</div>
@@ -22,7 +22,38 @@
 	.choice {
 		margin: 1rem;
 		color: #efefef;
+		overflow: hidden;
 		position: relative;
+	}
+	.choice:hover {
+		cursor: pointer;
+	}
+	.choice::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+    background: radial-gradient(circle, transparent 50%, #a6e3a1 100%);
+		transition: opacity 0.5s ease;
+		opacity: 0;
+	}
+	.choice::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		color: white;
+		font-size: 2rem;
+		text-align: center;
+		opacity: 0;
+		transition: opacity 0.5s ease;
+	}
+	.choice:hover::before,
+	.choice:hover::after {
+		opacity: 1;
 	}
 	.gameOver {
 		display: flex;
@@ -61,7 +92,7 @@
 	}
 	.choicePic {
 		max-width: 90vw;
-		max-height: 30vh;
+		max-height: 35vh;
 	}
 	@media screen and (min-width: 650px) {
 		.choicePic {
