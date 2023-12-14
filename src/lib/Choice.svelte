@@ -5,10 +5,20 @@
 	export let clicked
 	export let gameOver
 	export let subText
+	let isHovered = false
 </script>
 
-<div on:click on:keydown class="choice">
-	<img class="choicePic" src={picture} alt="1" />
+<div
+	on:click
+	on:keydown
+	class="choice"
+	on:mouseenter={() => (isHovered = true)}
+	on:mouseleave={() => (isHovered = false)}
+>
+	{#if isHovered }
+		<div id="overlay" class={clicked ? '' : 'overlay'} />
+	{/if}
+	<img class="choicePic" src={picture} alt="Movie picture" />
 	{#if clicked}
 		<div class={`gameOver ${winner ? 'win' : 'lose'}`}>
 			{#if winner}<span in:scale>Correct</span>{:else}<span in:fade>Wrong</span>{/if}
@@ -28,34 +38,16 @@
 	.choice:hover {
 		cursor: pointer;
 	}
-	.choice::before {
-		content: '';
+	.overlay {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
-    background: radial-gradient(circle, transparent 50%, #a6e3a1 100%);
-		transition: opacity 0.5s ease;
-		opacity: 0;
-	}
-	.choice::after {
-		content: '';
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		color: white;
-		font-size: 2rem;
-		text-align: center;
-		opacity: 0;
-		transition: opacity 0.5s ease;
-	}
-	.choice:hover::before,
-	.choice:hover::after {
-		opacity: 1;
+		background: radial-gradient(circle, transparent 50%, #a6e3a1 100%);
 	}
 	.gameOver {
+		z-index: 20;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
