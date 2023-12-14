@@ -98,7 +98,7 @@
 	}
 
 	function handleNextClick({ target }) {
-		if (target.nodeName !== 'IMG' && clicked && !lost) {
+		if (target.nodeName !== 'IMG' && target.id !== 'overlay' && clicked && !lost) {
 			nextGame()
 		}
 	}
@@ -189,7 +189,6 @@
 			<div class="choiceContainer">
 				<Choice
 					on:click={() => handleClick(game[0].winner)}
-					on:keypress={(e) => console.log(e)}
 					picture={`https://image.tmdb.org/t/p/w500/${game[0].picture}`}
 					{clicked}
 					winner={game[0].winner}
@@ -198,7 +197,6 @@
 				/>
 				<Choice
 					on:click={() => handleClick(game[1].winner)}
-					on:keypress={(e) => console.log(e)}
 					picture={`https://image.tmdb.org/t/p/w500/${game[1].picture}`}
 					{clicked}
 					winner={game[1].winner}
@@ -242,7 +240,7 @@
 							</form>
 						{/if}
 						<p>
-							Thank you for playing the daily challenge!
+							Thank you for playing daily challenge!
 							<a href="/">Return</a>
 						</p>
 					{:else}
@@ -308,7 +306,6 @@
     order: 3;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
 		align-items: center;
 		gap: 0.5rem;
 	}
@@ -373,6 +370,7 @@
 		margin: 0 0 0.5rem 0;
 	}
 	.gameOverContainer {
+		z-index: 100;
 		position: absolute;
 		top: 30%;
 		background-color: #313244;
